@@ -50,5 +50,12 @@ CHIP ALU {
     // You only need to submit the "full" ALU, no need to submit the partial
     // implementation (ALU-nostat).
     // Put your code here:
-
+    Not16 (in = x, out = notx)
+    Mux16 (a = x, sel = zx, out = zerox)
+    Mux16 (a = x, b = notx, sel = nx, out = negx)
+    And16 (a = zerox, b = negx, out = resx)
+    Not16 (in = y, out = noty)
+    Mux16 (a = y, sel = zy, out = zeroy)
+    Mux16 (a = y, b = noty, sel = ny, out = negy)
+    And16 (a = zeroy, b = negy, out = resy)
 }
