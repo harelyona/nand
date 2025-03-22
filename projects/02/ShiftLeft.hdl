@@ -15,8 +15,7 @@
  * ShiftLeft(0000000000000001)=0000000000000010 // ShiftLeft(1)=2
  * ShiftLeft(0100000000000000)=1000000000000000
  * ShiftLeft(1000000000000000)=0000000000000000
- *
- * This operation is (usually) equivalent to multiplying the input by 2.
+ * This operation is (usually) equivalent to multiplying the input by 2.;
  * This definition is also called an arithmetic left-shift, and is useful for
  * the efficient implementation of various operations which we will see later on
  * in the course.
@@ -25,7 +24,8 @@
 CHIP ShiftLeft {
     IN in[16];
     OUT out[16];
-     
+
     PARTS:
     // Put your code here:
+    Add16 (a = in, b = in, out = out );
 }
