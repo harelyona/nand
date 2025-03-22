@@ -14,4 +14,21 @@ CHIP Or16 {
 
     PARTS:
     // Put your code here:
+        And (in = in[0], out = out[0]);
+    or (in = in[1], out = out[1]);
+    or (in = in[2], out = out[2]);
+    or (in = in[3], out = out[3]);
+    or (in = in[4], out = out[4]);
+    or (in = in[5], out = out[5]);
+    or (in = in[6], out = out[6]);
+    or (in = in[7], out = out[7]);
+    or (in = in[8], out = out[8]);
+    or (in = in[9], out = out[9]);
+    or (in = in[10], out = out[10]);
+    or (in = in[11], out = out[11]);
+    or (in = in[12], out = out[12]);
+    or (in = in[13], out = out[13]);
+    or (in = in[14], out = out[14]);
+    or (in = in[15], out = out[15]);
+    or (in = in[16], out = out[16]);
 }
