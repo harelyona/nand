@@ -50,20 +50,27 @@ CHIP ALU {
     // You only need to submit the "full" ALU, no need to submit the partial
     // implementation (ALU-nostat).
     // Put your code here:
-    Not16 (in = x, out = notx);
-    Mux16 (a = x, b = notx, sel = nx, out = negatex);
-    Mux16 (a = 0000000000000000, b = negatex, sel = zx, out = resx);
-    Not16 (in = y, out = noty);
-    Mux16 (a = y, b = noty, sel = ny, out = negatey);
-    Mux16 (a = 0000000000000000, b = negatey, sel = zy, out = resy);
-    Add16 (a = resx, y = resy, out = xAddy);
-    And16 (a = resx, y = resy, out = xAndy);
+
+    //x
+    Mux16 (a = x, b = false, sel = zx, out = zerox);
+    Not16 (in = zerox, out = notzerox);
+    Mux16 (a = zerox, b = notzerox, sel = nx, out = resx);
+    //y
+    Mux16 (a = y, b = false, sel = zy, out = zeroy);
+    Not16 (in = zeroy, out = notzeroy);
+    Mux16 (a = zeroy, b = notzeroy, sel = ny, out = resy);
+    //
+    Add16 (a = resx, b = resy, out = xAddy);
+    And16 (a = resx, b = resy, out = xAndy);
     Mux16 (a = xAndy, b = xAddy, sel = f, out = resf);
     Not16 (in = resf, out = notresf);
-    Mux16 (a = resf, b = notresf, sel = no, out = out);
+    Mux16 (a = resf, b = notresf, sel = no, out[0..7] = r, out[8..15] = l);
+    Or16 (a=false, b[0..7]=r, b[8..15]=l, out=out);
     //zr
-    or16way (in = out, out = OrBitwiseOut);
+    Or8Way (in = l, out = p);
+    Or8Way (in = r, out = q);
+    Or (a = p, b = q, out = OrBitwiseOut);
     Not (in = OrBitwiseOut, out = zr);
     //ng
-    And16 (a = 1111111111111111, b = out, out[15] = ng, out[0..14] = d);
+    And16 (a = true, b[0..7]=r, b[8..15]=r, out[15] = ng, out[0..14] = d);
 }
