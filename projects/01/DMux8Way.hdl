@@ -17,13 +17,13 @@ CHIP DMux8Way {
 
     PARTS:
     // Put your code here:
-    DMux(in = in, sel = sel[2], a = 03, b = 47);
-    Dmux(in = 03, sel = sel[1], a = 01, b = 23);
-    Dmux(in = 47, sel = sel[1], a = 45, b = 67);
-    Dmux(in = 01, sel = sel[0], a = a, b = b);
-    Dmux(in = 23, sel = sel[0], a = c, b = d);
-    Dmux(in = 45, sel = sel[0], a = e, b = f);
-    Dmux(in = 67, sel = sel[0], a = g, b = h);
+    DMux(in = in, sel = sel[2], a = a03, b = a47);
+    DMux(in = a03, sel = sel[1], a = a01, b = a23);
+    DMux(in = a47, sel = sel[1], a = a45, b = a67);
+    DMux(in = a01, sel = sel[0], a = a, b = b);
+    DMux(in = a23, sel = sel[0], a = c, b = d);
+    DMux(in = a45, sel = sel[0], a = e, b = f);
+    DMux(in = a67, sel = sel[0], a = g, b = h);
 
 
 }
