@@ -17,3 +17,33 @@
 // - You can implement any multiplication algorithm you want.
 
 // Put your code here.
+
+// Extract first value
+    @R0
+    D = M
+
+// Initialize iteration parameter
+    @i
+    M = 0
+    @R2
+    M = 0
+
+(Loop)
+    // If i = R2 break out
+    @i
+    D = M
+    @R1
+    D = M - D
+    @END
+    D;JLE
+    // Else add val and increment i
+    @R0
+    D = M
+    @R2
+    M = D + M
+    @i
+    M = M + 1
+    @Loop
+    0;JEQ
+
+(END)
