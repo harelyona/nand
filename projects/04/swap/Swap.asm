@@ -13,5 +13,49 @@
 //
 // Requirements:
 // - Changing R14, R15 is not allowed.
-
 // Put your code here.
+
+// Initialize parameters
+@R14
+A = M
+D = M
+@MaxVal
+M = D
+@MinVal
+M = D
+@idx
+M = D
+@R14
+A = M
+
+(MainLoop)
+// Check end of array
+    @R14
+    D = M
+    @R15
+    D = D + M
+    @idx
+    D = D - M
+    @End
+    D;JEQ
+    // Check if current value is max
+    @MaxVal
+    D = M
+    @idx
+    A = M
+    D = D - M
+    @MaxFound
+    D;JLT
+    // Check if current value is min
+
+
+
+
+
+
+
+
+
+
+
+(END)
