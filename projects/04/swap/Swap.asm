@@ -36,26 +36,68 @@ A = M
     D = D + M
     @idx
     D = D - M
-    @End
+    @Swap
     D;JEQ
+
     // Check if current value is max
     @MaxVal
     D = M
     @idx
-    A = M
     D = D - M
-    @MaxFound
+    @UpdateMax
     D;JLT
+
     // Check if current value is min
+    @MinVal
+    D = M
+    @idx
+    D = D - M
+    @UpdateMin
+    D;JGT
 
+    // Increment index
+    @idx
+    M = M + 1
 
+    @MainLoop
+    0;JMP
 
+(UpdateMax)
+    @idx
+    D = M
+    @MaxVal
+    M = D
+    @MainLoop
+    0;JMP
 
+(UpdateMin)
+    @idx
+    D = M
+    @MinVal
+    M = D
+    @MainLoop
+    0;JMP
 
+(Swap)
+    // Save Min val in temp
+    @MinVal
+    A = M
+    D = M
+    @temp
+    M = D
 
+    // Save Max val in Min
+    @MaxVal
+    A = M
+    D = M
+    @MinVal
+    A = M
+    M = D
 
-
-
-
-
+    // Save temp in Max
+    @temp
+    D = M
+    @MaxVal
+    A = M
+    M = D
 (END)
