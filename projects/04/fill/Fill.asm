@@ -14,39 +14,61 @@
 // When no key is pressed, the program clears the screen, i.e. writes
 // "white" in every pixel;
 // the screen should remain fully clear as long as no key is pressed.
-// 
-// Assumptions:
-// Your program may blacken and clear the screen's pixels in any spatial/visual
-// Order, as long as pressing a key continuously for long enough results in a
-// fully blackened screen, and not pressing any key for long enough results in a
-// fully cleared screen.
-//
-// Test Scripts:
-// For completeness of testing, test the Fill program both interactively and
-// automatically.
-// 
-// The supplied FillAutomatic.tst script, along with the supplied compare file
-// FillAutomatic.cmp, are designed to test the Fill program automatically, as 
-// described by the test script documentation.
-//
-// The supplied Fill.tst script, which comes with no compare file, is designed
-// to do two things:
-// - Load the Fill.hack program
-// - Remind you to select 'no animation', and then test the program
-//   interactively by pressing and releasing some keyboard keys
 
-// Put your code here.
-// Initialize iteration parameter
-    @i
-    M=0
-(OuterLoop)
+(MainLoop)
     @KBD
-    @White
-    M;JEQ
-    @Black
-    0;JEQ
-(White)
-    @i
     D = M
-    @
-//
+    @BlackScreen
+    D;JNE
+    @WhiteScreen
+    0;JMP
+
+(BlackScreen)
+    @SCREEN
+    D = A
+    @i
+    M = D
+
+(BlackLoop)
+    @KBD
+    D = A
+    @i
+    D = M - D
+    @MainLoop
+    D;JEQ
+    @i
+    A = M
+    M = -1
+    @i
+    M = M + 1
+    @KBD
+    D = M
+    @BlackLoop
+    D;JNE
+    @MainLoop
+    0;JMP
+
+(WhiteScreen)
+    @SCREEN
+    D = A
+    @i
+    M = D
+
+(WhiteLoop)
+    @KBD
+    D = A
+    @i
+    D = M - D
+    @MainLoop
+    D;JEQ
+    @i
+    A = M
+    M = 0
+    @i
+    M = M + 1
+    @KBD
+    D = M
+    @MainLoop
+    D;JNE
+    @WhiteLoop
+    0;JMP
