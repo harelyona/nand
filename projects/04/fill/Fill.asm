@@ -36,3 +36,17 @@
 //   interactively by pressing and releasing some keyboard keys
 
 // Put your code here.
+// Initialize iteration parameter
+    @i
+    M=0
+(OuterLoop)
+    @KBD
+    @White
+    M;JEQ
+    @Black
+    0;JEQ
+(White)
+    @i
+    D = M
+    @
+//
