@@ -17,16 +17,16 @@
 
 // Initialize parameters
 @R14
-A = M
 D = M
+
 @MaxVal
 M = D
 @MinVal
 M = D
 @idx
 M = D
-@R14
-A = M
+
+A = D
 
 (MainLoop)
 // Check end of array
@@ -41,16 +41,20 @@ A = M
 
     // Check if current value is max
     @MaxVal
+    A = M
     D = M
     @idx
+    A = M
     D = D - M
     @UpdateMax
     D;JLT
 
     // Check if current value is min
     @MinVal
+    A = M
     D = M
     @idx
+    A = M
     D = D - M
     @UpdateMin
     D;JGT
