@@ -28,4 +28,12 @@ CHIP Memory {
 
     PARTS:
     // Put your code here:
+    // Address decoder
+    Not(a = address[14], out = aNot);
+    DMux(in = address[0..13], sel = address[14], a = RamAddress, b = ComponentsAddress);
+    DMux(in = address[0..13], sel = address[13], a = RamAddress, b = ScreenAddress);
+    RAM16K(in = in, load = load, address = RamAddress, out = RamOut);
+
+
+
 }

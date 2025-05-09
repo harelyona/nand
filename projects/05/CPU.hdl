@@ -40,4 +40,33 @@ CHIP CPU {
 
     PARTS:
     // Put your code here:
-}
+    // D register
+    Mux(a=false, b=instruction[4], sel=instruction[15], out=loadD);
+    DRegister(in=ALUOut, load=loadD, out=DRegOut);
+
+    // A register
+    Not(in=instruction[15], out=AInstruction);
+    Mux(a=AInstruction, b=instruction[5], sel=instruction[15], out=LoadA);
+    Mux16(a=instruction, b=ALUOut, sel=instruction[15], out=RegAIn);
+    ARegister(in=RegAIn, load=LoadA, out=ARegOut);
+
+    // ALU
+    ALU(x=DRegOut, y=ARegOut, zx=instruction[11], nx=instruction[10], zy=instruction[9], ny=instruction[8], f=instruction[7], no=instruction[6], out=ALUOut, zr=Zero, ng=Negative);
+
+    // Jump
+    And(a=instruction[1], b=Zero, out=Jump1);
+    And(a=instruction[2], b=Negative, out=Jump2);
+    Not(in=Negative, out=Positive);
+    And(a=instruction[0], b=Positive, out=Jump3);
+    Or(a=Jump1, b=Jump2, out=Jump4);
+    Or8Way(in[0] = Jump1, in[1] = Jump2, in[2] = Jump3, in[3..7] = false, out = JumpCondition);
+    And(a=JumpCondition, b=instruction[15], out=Jump);
+
+    // PC
+    PC(in=ARegOut, load=Jump, inc=true, reset=reset, out[0..14]=pc);
+
+    // Outputs
+    Or16(a[0..15]=false, b=ALUOut, out=outM);
+    Or16(a[0..15]=false, b=ARegOut, out[0..14]=addressM);
+    Mux(a=false, b=instruction[3], sel=instruction[15], out=writeM);
+    }
