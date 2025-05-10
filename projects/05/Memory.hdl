@@ -29,10 +29,14 @@ CHIP Memory {
     PARTS:
     // Put your code here:
     // Address decoder
-    Not(a = address[14], out = aNot);
-    DMux(in = address[0..13], sel = address[14], a = RamAddress, b = ComponentsAddress);
-    DMux(in = address[0..13], sel = address[13], a = RamAddress, b = ScreenAddress);
+    Not(a = address[14], out = RamAddress);
+    And(a = address[14], b = address[13], out = KBDAddress);
+    Not(a = address[13], out = Not13);
+
+    And(a =
+    And(a =
     RAM16K(in = in, load = load, address = RamAddress, out = RamOut);
+    Screen(in = in, load = load, address = ScreenAddress, out = ScreenOut);
 
 
 
