@@ -41,32 +41,35 @@ CHIP CPU {
     PARTS:
     // Put your code here:
     // D register
-    Mux(a=false, b=instruction[4], sel=instruction[15], out=loadD);
+    And(a=instruction[15], b=instruction[4], out=loadD);
     DRegister(in=ALUOut, load=loadD, out=DRegOut);
 
     // A register
     Not(in=instruction[15], out=AInstruction);
-    Mux(a=AInstruction, b=instruction[5], sel=instruction[15], out=LoadA);
+    And(a=instruction[15], b=instruction[5], out=cLoadA);
+    Or(a=AInstruction, b=cLoadA, out=LoadA);
     Mux16(a=instruction, b=ALUOut, sel=instruction[15], out=RegAIn);
-    ARegister(in=RegAIn, load=LoadA, out=ARegOut);
+    ARegister(in=RegAIn, load=LoadA, out=ARegOut, out[0..14]=addressM);
+    Mux16(a=ARegOut, b=inM, sel=instruction[12], out=AMOut);
 
     // ALU
-    ALU(x=DRegOut, y=ARegOut, zx=instruction[11], nx=instruction[10], zy=instruction[9], ny=instruction[8], f=instruction[7], no=instruction[6], out=ALUOut, zr=Zero, ng=Negative);
+    ALU(x=DRegOut, y=AMOut, zx=instruction[11], nx=instruction[10], zy=instruction[9], ny=instruction[8], f=instruction[7], no=instruction[6], out=ALUOut, zr=Zero, ng=Negative, out = outM);
 
     // Jump
-    And(a=instruction[1], b=Zero, out=Jump1);
-    And(a=instruction[2], b=Negative, out=Jump2);
-    Not(in=Negative, out=Positive);
-    And(a=instruction[0], b=Positive, out=Jump3);
-    Or(a=Jump1, b=Jump2, out=Jump4);
-    Or8Way(in[0] = Jump1, in[1] = Jump2, in[2] = Jump3, in[3..7] = false, out = JumpCondition);
+    Not(in=Zero, out=NotZero);
+    Not(in=Negative, out=NotNegative);
+    And(a=NotZero, b = NotNegative, out=Positive);
+    And(a=instruction[0], b=Positive, out=Jump1);
+    And(a=instruction[1], b=Zero, out=Jump2);
+    And(a=instruction[2], b=Negative, out=Jump3);
+    Or(a=Jump1, b=Jump2, out=JGE);
+    Or(a=JGE, b=Jump3, out=JumpCondition);
     And(a=JumpCondition, b=instruction[15], out=Jump);
 
     // PC
     PC(in=ARegOut, load=Jump, inc=true, reset=reset, out[0..14]=pc);
 
     // Outputs
-    Or16(a[0..15]=false, b=ALUOut, out=outM);
-    Or16(a[0..15]=false, b=ARegOut, out[0..14]=addressM);
-    Mux(a=false, b=instruction[3], sel=instruction[15], out=writeM);
+    And(a=instruction[15], b=instruction[3], out=writeM);
+
     }
